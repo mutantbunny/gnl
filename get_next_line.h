@@ -6,7 +6,7 @@
 /*   By: gmachado <gmachado@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 20:59:11 by gmachado          #+#    #+#             */
-/*   Updated: 2022/04/25 21:36:37 by gmachado         ###   ########.fr       */
+/*   Updated: 2022/04/26 23:25:44 by gmachado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,13 @@
 #  define BUFFER_SIZE 42
 # endif
 
-char	*get_next_line(int fd);
+# define FALSE 0
+# define TRUE 1
+# define ERROR -1
 
-typedef struct s_buffer
-{
-	char	buffer1[BUFFER_SIZE];
-	char	buffer2[BUFFER_SIZE];
-	int		active;
-	size_t	start;
-}	t_buffer;
+char	*get_next_line(int fd);
+size_t	ft_strlen(const char *s);
+void	append(char **s1, char *s2, size_t s2_len);
+int		split_remaining(char **result, char *remaining);
 
 #endif

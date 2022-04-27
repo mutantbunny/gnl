@@ -6,7 +6,7 @@
 /*   By: gmachado <gmachado@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 21:02:55 by gmachado          #+#    #+#             */
-/*   Updated: 2022/04/25 21:36:39 by gmachado         ###   ########.fr       */
+/*   Updated: 2022/04/26 23:25:17 by gmachado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,27 @@
 
 char	*get_next_line(int fd)
 {
-	static t_buffer	line_buffer = {.active = 1, .start = BUFFER_SIZE};
-	char			*result;
-	size_t			alloc_length;
-	int				new_line_reached;
+	static char	remaining[BUFFER_SIZE + 1];
+	ssize_t		bytes_read;
+	char		*result;
+	int			should_read;
 
 	if (fd < 0)
 		return (NULL);
-	if (line_buffer.start < BUFFER_SIZE)
-		new_line_reached = get_remaining_length(&line_buffer, &alloc_length);
-	if (!new_line_reached)
-		new_line_reached = get_read_length(&line_buffer, &alloc_length);
-	result = (char *)malloc(alloc_length * sizeof(char));
-	if (result == NULL)
+	result = NULL;
+	should_read = split_remaining(&result, remaining);
+	if (should_read == ERROR)
 		return (NULL);
-	alloc_length = copy_remaining(result, &line_buffer, alloc_length);
-	if (alloc_length != 0)
-		copy_line(result, &line_buffer);
-	while (!new_line_reached)
-		new_line_reached = append_line(result, &line_buffer);
-	return result;
+	while (should_read == TRUE)
+	{
+		bytes_read = read(fd, remaining, BUFFER_SIZE);
+		if (bytes_read < 0)
+		{
+			free(result);
+			return (NULL);
+		}
+		remaining[bytes_read] = '\0';
+		should_read = split_remaining(&result, remaining);
+	}
+	return (result);
 }
