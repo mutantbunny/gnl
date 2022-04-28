@@ -1,7 +1,6 @@
 CC = gcc
-AR = ar rcs
 REMOVE = rm -f
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 SRC_FILES = get_next_line.c get_next_line_utils.c
 BONUS_SRC_FILES = get_next_line_bonus.c get_next_line_utils_bonus.c
@@ -9,8 +8,8 @@ BONUS_SRC_FILES = get_next_line_bonus.c get_next_line_utils_bonus.c
 OBJ_FILES = $(SRC_FILES:.c=.o)
 BONUS_OBJ_FILES = $(BONUS_SRC_FILES:.c=.o)
 
-HEADER_FILES = libft.h
-BONUS_HEADER_FILES = libft_bonus.h
+HEADER_FILES = get_next_line.h
+BONUS_HEADER_FILES = get_next_line_bonus.h
 
 NAME = get_next_line
 
@@ -40,6 +39,6 @@ fclean: clean
 re:	fclean all
 
 norm:
-	norminette
+	norminette $(HEADER_FILES) $(BONUS_HEADER_FILES) $(SRC_FILES) $(BONUS_SRC_FILES)
 
 .PHONY: all bonus clean fclean norm re

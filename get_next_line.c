@@ -6,7 +6,7 @@
 /*   By: gmachado <gmachado@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 21:02:55 by gmachado          #+#    #+#             */
-/*   Updated: 2022/04/26 23:25:17 by gmachado         ###   ########.fr       */
+/*   Updated: 2022/04/27 22:15:50 by gmachado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ char	*get_next_line(int fd)
 			free(result);
 			return (NULL);
 		}
+		if (bytes_read == 0)
+			return (result);
 		remaining[bytes_read] = '\0';
 		should_read = split_remaining(&result, remaining);
 	}
