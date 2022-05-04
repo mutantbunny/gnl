@@ -6,7 +6,7 @@
 /*   By: gmachado <gmachado@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 22:10:41 by gmachado          #+#    #+#             */
-/*   Updated: 2022/04/28 01:10:37 by gmachado         ###   ########.fr       */
+/*   Updated: 2022/05/02 22:02:02 by gmachado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	shift_buffer(char *buffer, size_t pos)
 		buffer[index] = buffer[pos + index];
 		index++;
 	}
-	buffer[pos + index] = '\0';
+	buffer[index] = '\0';
 }
 
 int	split_remaining(char **result, char *remaining)
@@ -70,7 +70,6 @@ int	split_remaining(char **result, char *remaining)
 	pos = 0;
 	while (remaining[pos] != '\n' && remaining[pos] != '\0')
 		pos++;
-
 	if (remaining[pos] == '\n')
 	{
 		append(result, remaining, pos + 1);
