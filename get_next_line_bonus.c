@@ -6,7 +6,7 @@
 /*   By: gmachado <gmachado@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 19:05:57 by gmachado          #+#    #+#             */
-/*   Updated: 2022/05/03 21:46:25 by gmachado         ###   ########.fr       */
+/*   Updated: 2022/05/04 00:13:50 by gmachado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,24 +75,25 @@ int	split_remaining(char **result, char *remaining)
 	return (TRUE);
 }
 
-char	*process_line(t_node *fd_list, char *remaining, int fd)
+char	*process_line(t_node **fd_list_ptr, char *remaining, int fd)
 {
 	char	*result;
 	ssize_t	bytes_read;
 	int		should_read;
 
+	result = NULL;
 	should_read = split_remaining(&result, remaining);
 	while (should_read == TRUE)
 	{
 		bytes_read = read(fd, remaining, BUFFER_SIZE);
 		if (bytes_read == 0 && *result != '\0')
 		{
-			fd_list = remove_node(fd_list, fd);
+			*fd_list_ptr = remove_node(*fd_list_ptr, fd);
 			return (result);
 		}
 		if (bytes_read <= 0)
 		{
-			fd_list = remove_node(fd_list, fd);
+			*fd_list_ptr = remove_node(*fd_list_ptr, fd);
 			free(result);
 			return (NULL);
 		}
@@ -107,12 +108,12 @@ char	*get_next_line(int fd)
 	static t_node	*fd_list;
 	t_node			*fd_node;
 
-	if (fd <= 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	fd_node = get_node_by_fd(fd_list, fd);
 	if (fd_node == NULL)
 		fd_node = add_node(fd_list, fd);
 	if (fd_list == NULL)
 		fd_list = fd_node;
-	return (process_line(fd_list, fd_node->buffer, fd));
+	return (process_line(&fd_list, fd_node->buffer, fd));
 }

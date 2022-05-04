@@ -6,7 +6,7 @@
 /*   By: gmachado <gmachado@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 19:06:15 by gmachado          #+#    #+#             */
-/*   Updated: 2022/05/03 21:38:13 by gmachado         ###   ########.fr       */
+/*   Updated: 2022/05/04 00:44:12 by gmachado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,17 @@ t_node	*add_node(t_node *fd_list, int fd)
 {
 	t_node	*new_node;
 	t_node	*cur_node;
+	size_t	index;
 
+	index = 0;
 	new_node = (t_node *)malloc(sizeof(t_node));
+	if (new_node == NULL)
+		return (NULL);
+	while (index <= BUFFER_SIZE)
+		new_node->buffer[index++] = '\0';
 	new_node->fd = fd;
 	new_node->next = NULL;
+
 	if (fd_list == NULL)
 		return (new_node);
 	cur_node = fd_list;

@@ -6,7 +6,7 @@
 /*   By: gmachado <gmachado@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 19:06:58 by gmachado          #+#    #+#             */
-/*   Updated: 2022/05/03 21:52:24 by gmachado         ###   ########.fr       */
+/*   Updated: 2022/05/03 23:02:42 by gmachado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,13 @@
 
 typedef struct s_node
 {
-	int				fd;
 	char			buffer[BUFFER_SIZE + 1];
+	int				fd;
 	struct s_node	*next;
 }	t_node;
 
 char	*get_next_line(int fd);
+char	*process_line(t_node **fd_list_ptr, char *remaining, int fd);
 size_t	ft_strlen(const char *s);
 void	append(char **s1, char *s2, size_t s2_len);
 int		split_remaining(char **result, char *remaining);
