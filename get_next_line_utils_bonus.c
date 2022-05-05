@@ -6,7 +6,7 @@
 /*   By: gmachado <gmachado@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 19:06:15 by gmachado          #+#    #+#             */
-/*   Updated: 2022/05/04 00:44:12 by gmachado         ###   ########.fr       */
+/*   Updated: 2022/05/04 20:30:05 by gmachado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_node	*add_node(t_node *fd_list, int fd)
 	while (cur_node->next != NULL)
 		cur_node = cur_node->next;
 	cur_node->next = new_node;
-	return (fd_list);
+	return (new_node);
 }
 
 t_node	*remove_node(t_node *fd_list, int fd)
