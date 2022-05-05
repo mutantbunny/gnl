@@ -6,7 +6,7 @@
 /*   By: gmachado <gmachado@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 21:02:55 by gmachado          #+#    #+#             */
-/*   Updated: 2022/05/03 19:05:01 by gmachado         ###   ########.fr       */
+/*   Updated: 2022/05/05 13:25:40 by gmachado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*get_next_line(int fd)
 	while (should_read == TRUE)
 	{
 		bytes_read = read(fd, remaining, BUFFER_SIZE);
-		if (bytes_read == 0 && *result != '\0')
+		if (!bytes_read && *result)
 			return (result);
 		if (bytes_read <= 0)
 		{
