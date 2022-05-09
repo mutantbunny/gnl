@@ -6,7 +6,7 @@
 /*   By: gmachado <gmachado@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 19:06:15 by gmachado          #+#    #+#             */
-/*   Updated: 2022/05/08 01:33:51 by gmachado         ###   ########.fr       */
+/*   Updated: 2022/05/09 01:38:53 by gmachado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,26 +77,26 @@ int	add_to_hash(t_hash **hash_p, t_hash_node *node)
 	return (TRUE);
 }
 
-int	remove_from_hash(t_hash **hash_p, int key)
+int	remove_from_hash(t_hash **hash_p, int k)
 {
-	unsigned int	key_hash;
-	unsigned int	capacity;
-	unsigned int	count;
+	unsigned int	h;
+	unsigned int	cap;
+	unsigned int	c;
 
 	if (!hash_p || !*hash_p)
 		return (FALSE);
-	count = 0;
-	capacity = 1UL << (*hash_p)->capacity_power;
-	key_hash = (key * 2654435769U) >> (32U - (*hash_p)->capacity_power);
-	while (count++ < capacity && (!(*hash_p)->table[key_hash]
-		|| (*hash_p)->table[key_hash]->fd != key))
-		key_hash = (key_hash + 1U) % capacity;
-	if (count < capacity)
+	c = 0;
+	cap = 1UL << (*hash_p)->capacity_power;
+	h = (k * 2654435769U) >> (32U - (*hash_p)->capacity_power);
+	while (c++ < cap && (!(*hash_p)->table[h] || (*hash_p)->table[h]->fd != k))
+		h = (h + 1U) % cap;
+	if (c < cap)
 	{
-		free((*hash_p)->table[key_hash]);
-		(*hash_p)->table[key_hash] = NULL;
+		free((*hash_p)->table[h]);
+		(*hash_p)->table[h] = NULL;
 		if ((--((*hash_p)->length)) == 0)
 		{
+			free((*hash_p)->table);
 			free(*hash_p);
 			*hash_p = NULL;
 		}
@@ -120,9 +120,9 @@ t_hash_node	*get_node(t_hash *hash, int key)
 		return (NULL);
 	while (count++ < capacity && hash->table[key_hash]->fd != key)
 	{
-			key_hash = (key_hash + 1U) % capacity;
-			if (hash->table[key_hash] == NULL)
-				return (NULL);
+		key_hash = (key_hash + 1U) % capacity;
+		if (hash->table[key_hash] == NULL)
+			return (NULL);
 	}
 	if (count < capacity)
 		return (hash->table[key_hash]);
