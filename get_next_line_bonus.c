@@ -6,7 +6,7 @@
 /*   By: gmachado <gmachado@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 19:05:57 by gmachado          #+#    #+#             */
-/*   Updated: 2022/05/05 15:05:26 by gmachado         ###   ########.fr       */
+/*   Updated: 2022/05/07 23:50:21 by gmachado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	split_remaining(char **result, char *remaining)
 	return (TRUE);
 }
 
-char	*process_line(t_node **fd_list_ptr, char *remaining, int fd)
+char	*process_line(t_hash **fd_hash_ptr, char *remaining, int fd)
 {
 	char	*result;
 	ssize_t	bytes_read;
@@ -81,12 +81,12 @@ char	*process_line(t_node **fd_list_ptr, char *remaining, int fd)
 		bytes_read = read(fd, remaining, BUFFER_SIZE);
 		if (!bytes_read && *result)
 		{
-			*fd_list_ptr = remove_node(*fd_list_ptr, fd);
+			remove_from_hash(fd_hash_ptr, fd);
 			return (result);
 		}
 		if (bytes_read <= 0)
 		{
-			*fd_list_ptr = remove_node(*fd_list_ptr, fd);
+			remove_from_hash(fd_hash_ptr, fd);
 			free(result);
 			return (NULL);
 		}
@@ -98,15 +98,21 @@ char	*process_line(t_node **fd_list_ptr, char *remaining, int fd)
 
 char	*get_next_line(int fd)
 {
-	static t_node	*fd_list;
-	t_node			*fd_node;
+	static t_hash	*fd_hash;
+	t_hash_node		*fd_node;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	fd_node = get_node_by_fd(fd_list, fd);
+	fd_node = get_node(fd_hash, fd);
+	if (fd_hash == NULL)
+		fd_hash = create_hash(NULL, MIN_CAP_POWER);
 	if (fd_node == NULL)
-		fd_node = add_node(fd_list, fd);
-	if (fd_list == NULL)
-		fd_list = fd_node;
-	return (process_line(&fd_list, fd_node->buffer, fd));
+	{
+		fd_node = (t_hash_node *)malloc(sizeof(t_hash_node));
+		fd_node->buffer[0] = '\0';
+		fd_node->fd = fd;
+		if (add_to_hash(&fd_hash, fd_node) == ERROR)
+			return (NULL);
+	}
+	return (process_line(&fd_hash, fd_node->buffer, fd));
 }
