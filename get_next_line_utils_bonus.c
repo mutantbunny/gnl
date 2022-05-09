@@ -6,7 +6,7 @@
 /*   By: gmachado <gmachado@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 19:06:15 by gmachado          #+#    #+#             */
-/*   Updated: 2022/05/09 01:38:53 by gmachado         ###   ########.fr       */
+/*   Updated: 2022/05/09 19:42:57 by gmachado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	add_to_hash(t_hash **hash_p, t_hash_node *node)
 	{
 		count = 0;
 		capacity = 1U << (*hash_p)->capacity_power;
-		h = (node->fd * 2654435769U) >> (32U - (*hash_p)->capacity_power);
+		h = (node->fd * KNUTH_CONST) >> (UINT_SZ - (*hash_p)->capacity_power);
 		while (count++ < capacity && (*hash_p)->table[h])
 			h = (h + 1) % capacity;
 		if (count == capacity)
@@ -86,10 +86,10 @@ int	remove_from_hash(t_hash **hash_p, int k)
 	if (!hash_p || !*hash_p)
 		return (FALSE);
 	c = 0;
-	cap = 1UL << (*hash_p)->capacity_power;
-	h = (k * 2654435769U) >> (32U - (*hash_p)->capacity_power);
+	cap = 1U << (*hash_p)->capacity_power;
+	h = (k * KNUTH_CONST) >> (UINT_SZ - (*hash_p)->capacity_power);
 	while (c++ < cap && (!(*hash_p)->table[h] || (*hash_p)->table[h]->fd != k))
-		h = (h + 1U) % cap;
+		h = (h + 1) % cap;
 	if (c < cap)
 	{
 		free((*hash_p)->table[h]);
@@ -114,13 +114,13 @@ t_hash_node	*get_node(t_hash *hash, int key)
 	if (hash == NULL)
 		return (NULL);
 	count = 0;
-	capacity = 1UL << hash->capacity_power;
-	key_hash = (key * 2654435769U) >> (32U - hash->capacity_power);
+	capacity = 1U << hash->capacity_power;
+	key_hash = (key * KNUTH_CONST) >> (UINT_SZ - hash->capacity_power);
 	if (hash->table[key_hash] == NULL)
 		return (NULL);
 	while (count++ < capacity && hash->table[key_hash]->fd != key)
 	{
-		key_hash = (key_hash + 1U) % capacity;
+		key_hash = (key_hash + 1) % capacity;
 		if (hash->table[key_hash] == NULL)
 			return (NULL);
 	}

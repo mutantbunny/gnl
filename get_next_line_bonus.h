@@ -6,7 +6,7 @@
 /*   By: gmachado <gmachado@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 19:06:58 by gmachado          #+#    #+#             */
-/*   Updated: 2022/05/08 00:09:29 by gmachado         ###   ########.fr       */
+/*   Updated: 2022/05/09 19:42:56 by gmachado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@
 # define FALSE 0
 # define TRUE 1
 # define ERROR -1
-# define MIN_CAP_POWER 10UL
+# define MIN_CAP_POWER 10U
+# define KNUTH_CONST 2654435769U
+# define UINT_SZ 32U
 
 typedef struct s_hash_node
 {
