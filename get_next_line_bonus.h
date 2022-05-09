@@ -6,7 +6,7 @@
 /*   By: gmachado <gmachado@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 19:06:58 by gmachado          #+#    #+#             */
-/*   Updated: 2022/05/09 19:42:56 by gmachado         ###   ########.fr       */
+/*   Updated: 2022/05/03 23:02:42 by gmachado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,31 +23,21 @@
 # define FALSE 0
 # define TRUE 1
 # define ERROR -1
-# define MIN_CAP_POWER 10U
-# define KNUTH_CONST 2654435769U
-# define UINT_SZ 32U
 
-typedef struct s_hash_node
+typedef struct s_node
 {
-	char	buffer[BUFFER_SIZE + 1];
-	int		fd;
-}	t_hash_node;
+	char			buffer[BUFFER_SIZE + 1];
+	int				fd;
+	struct s_node	*next;
+}	t_node;
 
-typedef struct s_hash
-{
-	unsigned int	capacity_power;
-	unsigned int	length;
-	t_hash_node		**table;
-}	t_hash;
-
-char		*get_next_line(int fd);
-char		*process_line(t_hash **fd_hash_ptr, char *remaining, int fd);
-size_t		ft_strlen(const char *s);
-void		append(char **s1, char *s2, size_t s2_len);
-int			split_remaining(char **result, char *remaining);
-t_hash		*create_hash(t_hash *old_hash, unsigned int capacity_power);
-int			add_to_hash(t_hash **hash_p, t_hash_node *node);
-int			remove_from_hash(t_hash **hash, int key);
-t_hash_node	*get_node(t_hash *hash, int key);
+char	*get_next_line(int fd);
+char	*process_line(t_node **fd_list_ptr, char *remaining, int fd);
+size_t	ft_strlen(const char *s);
+void	append(char **s1, char *s2, size_t s2_len);
+int		split_remaining(char **result, char *remaining);
+t_node	*remove_node(t_node *fd_list, int fd);
+t_node	*add_node(t_node *fd_list, int fd);
+t_node	*get_node_by_fd(t_node *fd_list, int fd);
 
 #endif
