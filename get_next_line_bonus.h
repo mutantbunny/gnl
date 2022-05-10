@@ -6,7 +6,7 @@
 /*   By: gmachado <gmachado@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 19:06:58 by gmachado          #+#    #+#             */
-/*   Updated: 2022/05/03 23:02:42 by gmachado         ###   ########.fr       */
+/*   Updated: 2022/05/09 22:38:10 by gmachado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,6 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
-# endif
 
 # define FALSE 0
 # define TRUE 1
